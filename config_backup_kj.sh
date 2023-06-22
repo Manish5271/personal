@@ -37,20 +37,20 @@ else
     day2="$backupdate2.tar.gz"
     day1="$backupdate1.tar.gz"
 
-#below function is used to delete the file from teh destination path if its alredy available. it will delet the old file from last week at the time of script execution 
+#below function is used to delete the file from the destination path if it's already available. it will delete the old file from last week at the time of script execution 
     function files_delete () {
         for days in $day8 $day9 $day10 $day11 $day12 $day13 $day14; do
             #echo -e "$day8 $day9 $day10 $day11 $day12 $day13 $day14"
             if [[ -e "$destination/$days" ]]; then
-                echo -e "$days is presnt in the $destination"
+                echo -e "$days is present in the $destination"
                 echo -e "$days is removing from $destination "
                 rm $destination/$days
             else    
-                echo -e "$days is alredy removed from $destination"
+                echo -e "$days is already removed from $destination"
             fi
         done
     }
-#below function is used to copy the file from source to destintion ie dnif config backup to mountpoint 
+#below function is used to copy the file from source to destination ie dnif config backup to mount point 
     function copy_checksum () {
         for day in $day7 $day6 $day5 $day4 $day3 $day2 $day1; do
             destination_file="$destination/$day"
@@ -161,8 +161,8 @@ else
     #------------------------------------------------------------------------------
 
    #-------------------belwo loops are for the adapter------------------------------
-   #-------incase if need to add more adapter just copy the loop and add the new ad ip in server ip---------------
-   #-----------chnage the destination path as per requriment-----------------------------
+   #-------incase if need to add more adapters just copy the loop and add the new ad ip in server IP---------------
+   #-----------chnage the destination path as per requirements-----------------------------
     if [[ $(docker ps -a --format '{{.Names}}' | grep -w adapter-v9) == "adapter-v9" ]]; then
         server_ip=$(grep -oP 'localIPv4Address: \K[\d.]+' /DNIF/AD/csltuconfig/system.yml)
         
@@ -183,7 +183,7 @@ else
         fi
     fi
 
-    #-------------------------------below loops are for the datanodes--------------------------
+    #-------------------------------below loops are for the data nodes--------------------------
     #------------------------------incase the need to add DN follows the same as done for AD---------
     if [[ $(docker ps -a --format '{{.Names}}' | grep -w datanode-v9) == "datanode-v9" ]]; then
         server_ip=$(grep -oP 'localIPv4Address: \K[\d.]+' /DNIF/DL/csltuconfig/system.yml)
